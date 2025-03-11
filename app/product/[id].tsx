@@ -14,8 +14,6 @@ export default function ProductPage() {
     image: string;
   } | null;
 
-  console.log(id);
-
   if (!product) {
     return (
       <SafeAreaView>

@@ -5,6 +5,7 @@ import * as yup from "yup";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { asyncStorageApi } from "@/utils/asyncStorageApi";
+import { useRouter } from "expo-router";
 
 const schema = yup.object().shape({
   title: yup.string().required("Назва товару обов'язкова"),
@@ -13,6 +14,7 @@ const schema = yup.object().shape({
 });
 
 export default function AddProductPage() {
+  const router = useRouter();
   const {
     control,
     handleSubmit,
@@ -26,10 +28,14 @@ export default function AddProductPage() {
     description: string;
     price: string;
   }) => {
-    asyncStorageApi.addDataToStore("products", {
-      ...data,
-      id: `${Date.now()}${Math.floor(Math.random() * 10000)}`,
-    });
+    asyncStorageApi
+      .addDataToStore("products", {
+        ...data,
+        id: `${Date.now()}${Math.floor(Math.random() * 10000)}`,
+      })
+      .then(() => {
+        router.push("/");
+      });
   };
 
   return (
